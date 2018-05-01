@@ -1,0 +1,40 @@
+# Put the top level folder of your music collection here
+source: /home/devkid/NAS/Musik
+
+# List paths inside your collection that should never be synced
+exclude:
+- Strange stuff
+- Other strange stuff
+
+target:
+  # For MTP transfer: specify the device serial number, followed by the path on the device.
+  # In this example, "a0d5770c" is the device serial number and the virtual path "sdcard1" points to the micro SD card in the device.
+  mtp: a0d5770c/sdcard1
+
+  # Alternatively, specify a local filesystem path to sync your music files to. (Will be ignored if "mtp" is configured.)
+  path: /tmp/sync/
+
+  # Define the folders under which music and playlist files are synced to.
+  # The folders are relative to the target folder configured above.
+  folders:
+    music: Music # will result in /tmp/sync/Music if above "path" configuration is used
+    playlists: Playlists
+
+  # List of MIME types that are understood by the target device and don't need transcoding.
+  supported_mime:
+    - audio/mp3
+    - audio/mp4
+    - audio/mpeg
+    - audio/aac
+    - image/jpeg
+    - image/png
+    - image/gif
+    - image/bmp
+    - video/mp4
+    - video/mpeg
+    - video/x-ms-asf
+
+  # These settings will be applied to files that don't match above list. Those files will be transcoded by the FFmpeg with the settings below.
+  transcode:
+    extension: mp3
+    ffmpeg: -codec:a libmp3lame -qscale:a 0 -threads 8
